@@ -9,9 +9,11 @@ import {
   UpdateUserUseCase,
   DeleteUserUseCase,
 } from '../../application/use-cases/user';
+import { UsersController } from '../../interfaces/http/controllers/users.controller';
 
 @Module({
   imports: [DatabaseModule],
+  controllers: [UsersController],
   providers: [
     {
       provide: USER_REPOSITORY,
@@ -32,4 +34,4 @@ import {
     DeleteUserUseCase,
   ],
 })
-export class UserModule {}
+export class UserModule { }

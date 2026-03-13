@@ -6,9 +6,11 @@ import {
   RegisterDeviceUseCase,
   GetDevicesByUserUseCase,
 } from '../../application/use-cases/device';
+import { DevicesController } from '../../interfaces/http/controllers/devices.controller';
 
 @Module({
   imports: [DatabaseModule],
+  controllers: [DevicesController],
   providers: [
     {
       provide: DEVICE_REPOSITORY,
@@ -23,4 +25,4 @@ import {
     GetDevicesByUserUseCase,
   ],
 })
-export class DeviceModule {}
+export class DeviceModule { }

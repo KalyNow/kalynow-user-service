@@ -20,6 +20,7 @@ const mockUserRepository = {
   findById: jest.fn(),
   findByEmail: jest.fn(),
   findAll: jest.fn(),
+  count: jest.fn(),
   create: jest.fn(),
   update: jest.fn(),
   delete: jest.fn(),
@@ -84,10 +85,12 @@ describe('User Use Cases', () => {
   });
 
   describe('ListUsersUseCase', () => {
-    it('should return a list of users', async () => {
+    it('should return a paginated list of users', async () => {
       mockUserRepository.findAll.mockResolvedValue([mockUser]);
-      const result = await listUsersUseCase.execute();
-      expect(result).toEqual([mockUser]);
+      mockUserRepository.count.mockResolvedValue(1);
+      const result = await listUsersUseCase.execute({ page: 1, limit: 20 });
+      expect(result.data).toEqual([mockUser]);
+      expect(result.total).toBe(1);
     });
   });
 
