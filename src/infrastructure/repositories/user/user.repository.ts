@@ -22,6 +22,11 @@ export class UserRepository implements IUserRepository {
     return user ? new User(user) : null;
   }
 
+  async findByVerificationToken(token: string): Promise<User | null> {
+    const user = await this.prisma.user.findUnique({ where: { verificationToken: token } });
+    return user ? new User(user) : null;
+  }
+
   async findAll(params?: {
     skip?: number;
     take?: number;

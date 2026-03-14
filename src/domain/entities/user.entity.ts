@@ -8,6 +8,8 @@ export class User {
   name: string;
   passwordHash: string;
   role: UserRole;
+  isVerified: boolean;
+  verificationToken: string | null;
   createdAt: Date;
   updatedAt: Date;
 

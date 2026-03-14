@@ -21,6 +21,7 @@ async function bootstrap() {
     .addTag('users')
     .addTag('subscriptions')
     .addTag('devices')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

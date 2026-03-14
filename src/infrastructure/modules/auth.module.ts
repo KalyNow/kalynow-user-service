@@ -11,6 +11,7 @@ import {
   RefreshTokenUseCase,
   RegisterUseCase,
   VerifyTokenUseCase,
+  VerifyAccountUseCase,
 } from '../../application/use-cases/auth';
 import { AuthController } from '../../interfaces/http/controllers/auth.controller';
 
@@ -37,6 +38,7 @@ import { AuthController } from '../../interfaces/http/controllers/auth.controlle
     RegisterUseCase,
     RefreshTokenUseCase,
     VerifyTokenUseCase,
+    VerifyAccountUseCase,
     LogoutUseCase,
   ],
   exports: [JwtModule],

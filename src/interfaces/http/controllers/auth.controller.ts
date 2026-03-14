@@ -17,11 +17,13 @@ import {
   RefreshTokenUseCase,
   RegisterUseCase,
   VerifyTokenUseCase,
+  VerifyAccountUseCase,
 } from '../../../application/use-cases/auth';
 import { LoginDto } from '../../../application/dtos/auth/login.dto';
 import { RegisterDto } from '../../../application/dtos/auth/register.dto';
 import { RefreshTokenDto } from '../../../application/dtos/auth/refresh-token.dto';
 import { AuthTokensDto } from '../../../application/dtos/auth/auth-tokens.dto';
+import { RegisterResponseDto } from '../../../application/dtos/auth/register-response.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -32,14 +34,24 @@ export class AuthController {
     private readonly refreshTokenUseCase: RefreshTokenUseCase,
     private readonly verifyTokenUseCase: VerifyTokenUseCase,
     private readonly logoutUseCase: LogoutUseCase,
+    private readonly verifyAccountUseCase: VerifyAccountUseCase,
   ) { }
 
   @Post('register')
   @ApiOperation({ summary: 'Register a new user' })
-  @ApiResponse({ status: 201, type: AuthTokensDto })
+  @ApiResponse({ status: 201, type: RegisterResponseDto })
   @ApiResponse({ status: 409, description: 'Email already in use' })
-  register(@Body() dto: RegisterDto): Promise<AuthTokensDto> {
+  register(@Body() dto: RegisterDto): Promise<RegisterResponseDto> {
     return this.registerUseCase.execute(dto);
+  }
+
+  @Post('verify-account')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Verify account with token received by email' })
+  @ApiResponse({ status: 200, type: AuthTokensDto, description: 'Account verified — returns JWT tokens' })
+  @ApiResponse({ status: 400, description: 'Invalid or expired token' })
+  verifyAccount(@Body('token') token: string): Promise<AuthTokensDto> {
+    return this.verifyAccountUseCase.execute(token);
   }
 
   @Post('login')
