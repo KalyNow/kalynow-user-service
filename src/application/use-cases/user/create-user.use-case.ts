@@ -21,6 +21,8 @@ export class CreateUserUseCase {
       name: dto.name,
       passwordHash: '',
       role: UserRole.BUYER,
+      isVerified: false,
+      verificationToken: null,
     });
   }
 }
