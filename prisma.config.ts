@@ -1,11 +1,12 @@
-import { defineConfig, env } from 'prisma/config';
+import { defineConfig } from 'prisma/config';
 import * as dotenv from 'dotenv';
 
-dotenv.config();
+// Load .env if present (dev), otherwise fall back to process.env (container/CI)
+dotenv.config({ override: false });
 
 export default defineConfig({
   schema: './prisma/schema.prisma',
   datasource: {
-    url: env('DATABASE_URL'),
+    url: process.env.DATABASE_URL || 'postgresql://placeholder:placeholder@127.0.0.1:5432/placeholder',
   },
 });
