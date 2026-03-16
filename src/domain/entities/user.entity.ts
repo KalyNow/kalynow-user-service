@@ -1,7 +1,15 @@
+export { UserRole } from '@prisma/client';
+
+import { UserRole } from '@prisma/client';
+
 export class User {
   id: string;
   email: string;
   name: string;
+  passwordHash: string;
+  role: UserRole;
+  isVerified: boolean;
+  verificationToken: string | null;
   createdAt: Date;
   updatedAt: Date;
 

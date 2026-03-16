@@ -7,9 +7,11 @@ import {
   GetSubscriptionsByUserUseCase,
   UpdateSubscriptionUseCase,
 } from '../../application/use-cases/subscription';
+import { SubscriptionsController } from '../../interfaces/http/controllers/subscriptions.controller';
 
 @Module({
   imports: [DatabaseModule],
+  controllers: [SubscriptionsController],
   providers: [
     {
       provide: SUBSCRIPTION_REPOSITORY,
@@ -26,4 +28,4 @@ import {
     UpdateSubscriptionUseCase,
   ],
 })
-export class SubscriptionModule {}
+export class SubscriptionModule { }
