@@ -1,5 +1,6 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { randomUUID } from 'crypto';
 import * as bcrypt from 'bcrypt';
 import { IUserRepository, USER_REPOSITORY } from '../../../domain/repositories';
 import {
@@ -41,7 +42,10 @@ export class LoginUseCase {
   private async generateTokens(user: User): Promise<AuthTokensDto> {
     const payload = { sub: user.id, email: user.email, role: user.role, verified: true };
     const accessToken = this.jwtService.sign(payload, { expiresIn: '15m' });
-    const rawRefreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
+    const rawRefreshToken = this.jwtService.sign(payload, {
+      expiresIn: '7d',
+      jwtid: randomUUID(),
+    });
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
     await this.refreshTokenRepository.create({
