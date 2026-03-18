@@ -1,11 +1,11 @@
 -- Add performance indexes and tokenId column for refresh tokens
 
 -- Add tokenId column as unique for efficient token lookups
-ALTER TABLE "refresh_tokens" DROP CONSTRAINT "refresh_tokens_token_key";
+DROP INDEX IF EXISTS "refresh_tokens_token_key";
 ALTER TABLE "refresh_tokens" ADD COLUMN "token_id" TEXT UNIQUE;
 
--- Populate tokenId for existing tokens with UUIDs
-UPDATE "refresh_tokens" SET "token_id" = gen_random_uuid()::text WHERE "token_id" IS NULL;
+-- Populate tokenId for existing rows using current token value (already unique)
+UPDATE "refresh_tokens" SET "token_id" = "token" WHERE "token_id" IS NULL;
 
 -- Make token_id NOT NULL after populating
 ALTER TABLE "refresh_tokens" ALTER COLUMN "token_id" SET NOT NULL;
